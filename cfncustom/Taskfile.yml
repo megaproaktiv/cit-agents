@@ -1,0 +1,16 @@
+# https://taskfile.dev
+
+version: '3'
+
+vars:
+  agent: cfncustom
+
+tasks:
+  dist:
+    desc: Create Dist binary
+    cmds:
+      - env GOOS=linux go build -ldflags="-s -w" -o ../dist/{{.agent}} main/main.go
+      - chmod +x ../dist/{{.agent}}
+    silent: true
+
+      

@@ -1,0 +1,28 @@
+# https://taskfile.dev
+
+version: '3'
+
+vars:
+  CDKBUCKET: 
+    sh: aws cloudformation describe-stacks --stack-name CDKToolkit --query "Stacks[*].Outputs[?OutputKey=='BucketName'].OutputValue" --output text 
+  DEPLOYDIR: cit/agents
+
+tasks:
+  show-bucket:
+    desc: Show CDK Bucket
+    cmds:
+      - echo {{.CDKBUCKET}}  
+    silent: true
+    
+  list-bucket:
+    desc: Show CDK Bucket
+    cmds:
+      - aws s3 ls s3://{{.CDKBUCKET}}/{{.DEPLOYDIR}}/
+    silent: false
+
+  deploy-agents:
+    dir: dist
+    desc: copy agents to cdk bucket
+    cmds:
+      - aws s3 sync . s3://{{.CDKBUCKET}}/{{.DEPLOYDIR}}
+    silent: true
