@@ -11,12 +11,14 @@ import (
 func ApiRouter() http.Handler {
 	e := gin.New()
 	e.Use(gin.Recovery())
-	e.GET("/", func(c *gin.Context) {
+	e.PUT("/", func(c *gin.Context) {
 		c.JSON(
 			http.StatusOK,
 			gin.H{
 				"code":  http.StatusOK,
 				"status": "sucess",
+				"msg": "API",
+
 			},
 		)
 	})

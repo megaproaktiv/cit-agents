@@ -17,7 +17,7 @@ var (
 func main() {
 
 	apiServer := &http.Server{
-		Addr:         ":443",
+		Addr:         ":80",
 		Handler:      cfncustom.ApiRouter(),
 		ReadTimeout:  5 * time.Second,
 		WriteTimeout: 10 * time.Second,
