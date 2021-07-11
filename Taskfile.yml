@@ -2,6 +2,11 @@
 
 version: '3'
 
+includes:
+  cfn: 
+    taskfile: ./cfncustom/Taskfile.yml
+    dir: ./cfncustom
+
 vars:
   CDKBUCKET: 
     sh: aws cloudformation describe-stacks --stack-name CDKToolkit --query "Stacks[*].Outputs[?OutputKey=='BucketName'].OutputValue" --output text 
@@ -24,5 +29,6 @@ tasks:
     dir: dist
     desc: copy agents to cdk bucket
     cmds:
+      - task: cfn:dist
       - aws s3 sync . s3://{{.CDKBUCKET}}/{{.DEPLOYDIR}}
     silent: true
